@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.excelbkk.pong.sample.MainActivity">
+
+    <TextView
+        style="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Your Content!" />
+
+    <com.excelbkk.pong.multilayout.MultiLayout
+        android:id="@+id/multi_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_button"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:id="@+id/layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear" />
+
+            <Button
+                android:id="@+id/button_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Empty" />
+
+            <Button
+                android:id="@+id/button_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_failed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Failed" />
+
+            <Button
+                android:id="@+id/button_failed_with_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Failed with retry" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
