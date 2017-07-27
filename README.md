@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ......
+        ...
 
         multiLayout = (MultiLayout) findViewById(R.id.multi_layout);
         
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             
-        ......
+        ...
     }
 ```
 
@@ -67,13 +67,36 @@ Change message of each view
   
 ```
 
-Custom retry and loading drawable
+Change retry and loading drawable
 ```java
   public void setRetryButtonBackgroundDrawable(@NonNull Drawable drawable)
   
   public void setRetryButtonBackgroundColor(int color)
   
   public void setLoadingDrawable(Drawable drawable)
+```
+
+Change message size and color with TextOption
+```java
+  ...
+  
+  public void showMyFailedView(){
+  
+    // change message size to 20sp and color to blue. (default is 16sp and Color.DKGRAY)
+    TextOption messageOption = new TextOption(20, Color.Blue); 
+    multiLayout.setFailMessage("Oh. Something wrong!!", messageOption);
+    
+    // change button size to 36sp and color to red. (default is 16sp and Color.WHITE)
+    TextOption buttonOption = new TextOption(36, Color.Red); 
+    multiLayout.setRetryButtonTitle("Do it again!", buttonOption);
+    
+    multiLayout.showFail(new OnRetryListener() {
+            ...
+            ...
+      });
+  }
+  
+  ...
 ```
 
 ## License
