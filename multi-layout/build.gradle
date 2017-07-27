@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'multi-layout'
+
+    publishedGroupId = 'com.excelbangkok.excellibrary'
+    libraryName = 'MultiLayout'
+    artifact = 'multi-layout'
+
+    libraryDescription = 'Android layout for multi purpose.'
+
+    siteUrl = 'https://github.com/mefuot/MultiLayout'
+    gitUrl = 'https://github.com/mefuot/MultiLayout.git'
+
+    libraryVersion = '0.9.0'
+
+    developerId = 'pongp'
+    developerName = 'Pongpol Pramanpol'
+    developerEmail = 'pong.pramanpol@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+}
+
+apply from: 'https://gist.githubusercontent.com/mefuot/fe34610f126fa9d944b07daa95a6491c/raw/2103929036c3a57ce10b66fe42f67e8dbd2831bc/buildlib.gradle'
+apply from: 'https://gist.githubusercontent.com/mefuot/fe34610f126fa9d944b07daa95a6491c/raw/2103929036c3a57ce10b66fe42f67e8dbd2831bc/bintray.gradle'
