@@ -5,6 +5,23 @@ android layout for multi purpose.
 - show load fail layout
 - show loading layout
 
+## Install
+
+#### Maven
+```groovy
+<dependency>
+  <groupId>com.pong.library</groupId>
+  <artifactId>multi-layout</artifactId>
+  <version>0.9.0</version>
+  <type>pom</type>
+</dependency>
+```
+
+#### Gradle
+```groovy
+compile 'com.pong.library:multi-layout:0.9.0@aar'
+```
+
 ## Basic Usage
 1. Add MultiLayout component to target xml.
 ```xml
