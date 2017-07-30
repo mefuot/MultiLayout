@@ -4,7 +4,7 @@ ext {
     bintrayRepo = 'maven'
     bintrayName = 'multi-layout'
 
-    publishedGroupId = 'com.excelbangkok.excellibrary'
+    publishedGroupId = 'com.pong.library'
     libraryName = 'MultiLayout'
     artifact = 'multi-layout'
 
@@ -15,7 +15,7 @@ ext {
 
     libraryVersion = '0.9.0'
 
-    developerId = 'pongp'
+    developerId = 'mefuot'
     developerName = 'Pongpol Pramanpol'
     developerEmail = 'pong.pramanpol@gmail.com'
 
