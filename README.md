@@ -118,7 +118,7 @@ Change message size and color with TextOption
 
 ## License
 <pre>
-Copyright 2017 Pongpol Pramanpol
+Copyright 2017 mefuot
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
