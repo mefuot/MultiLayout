@@ -25,11 +25,11 @@ ext {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -45,7 +45,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
 }
 
 apply from: 'https://gist.githubusercontent.com/mefuot/fe34610f126fa9d944b07daa95a6491c/raw/2103929036c3a57ce10b66fe42f67e8dbd2831bc/buildlib.gradle'
