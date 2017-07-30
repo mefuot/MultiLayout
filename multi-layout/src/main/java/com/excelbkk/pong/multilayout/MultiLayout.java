@@ -80,7 +80,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setEmptyMessage(@NonNull String msg) {
         setEmptyMessage(msg, null);
-        resetTextOption(false);
+        resetMessageTextOption();
     }
 
     /**
@@ -101,7 +101,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setFailMessage(@NonNull String msg) {
         setFailMessage(msg, null);
-        resetTextOption(false);
+        resetMessageTextOption();
     }
 
     /**
@@ -122,7 +122,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setLoadingMessage(@NonNull String msg) {
         setLoadingMessage(msg, null);
-        resetTextOption(false);
+        resetMessageTextOption();
     }
 
     /**
@@ -143,7 +143,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setRetryButtonTitle(@NonNull String title) {
         setRetryButtonTitle(title, null);
-        resetTextOption(true);
+        resetButtonTextOption();
     }
 
     /**
@@ -180,7 +180,7 @@ public class MultiLayout extends RelativeLayout {
      *
      * @param drawable image drawable
      */
-    public void setLoadingDrawable(Drawable drawable) {
+    public void setLoadingDrawable(@NonNull Drawable drawable) {
         this.loadingDrawable = drawable;
     }
 
@@ -221,10 +221,18 @@ public class MultiLayout extends RelativeLayout {
         removeAllViews();
         this.setVisibility(VISIBLE);
         switch (type) {
-            case EMPTY:     this.addView(createEmptyView());    break;
-            case LOADING:   this.addView(createLoadingView());  break;
-            case FAIL:      this.addView(createFailView());     break;
-            default:    this.addView(createEmptyView());    break;
+            case EMPTY:
+                this.addView(createEmptyView());
+                break;
+            case LOADING:
+                this.addView(createLoadingView());
+                break;
+            case FAIL:
+                this.addView(createFailView());
+                break;
+            default:
+                this.addView(createEmptyView());
+                break;
         }
     }
 
@@ -266,7 +274,7 @@ public class MultiLayout extends RelativeLayout {
         } else {
             layout.setBackgroundColor(retryButtonBackgroundColour);
         }
-        initFailButton(layout);
+        setupFailButton(layout);
 
         return failView;
     }
@@ -297,7 +305,7 @@ public class MultiLayout extends RelativeLayout {
         }
     }
 
-    private void initFailButton(View view) {
+    private void setupFailButton(@NonNull View view) {
         if (canRetry) {
             view.setVisibility(VISIBLE);
             view.setOnClickListener(new OnClickListener() {
@@ -323,24 +331,20 @@ public class MultiLayout extends RelativeLayout {
         }
     }
 
-    private void resetTextOption(boolean isButtonText) {
-        if (isButtonText) {
-            buttonTextOption.setColor(DEFAULT_BUTTON_TEXT_COLOR);
-            buttonTextOption.setSize(DEFAULT_TEXT_SIZE);
-        } else {
-            messageOption.setColor(DEFAULT_TEXT_COLOR);
-            messageOption.setSize(DEFAULT_TEXT_SIZE);
-        }
+    private void resetMessageTextOption() {
+        messageOption.setColor(DEFAULT_TEXT_COLOR);
+        messageOption.setSize(DEFAULT_TEXT_SIZE);
+    }
+
+    private void resetButtonTextOption() {
+        buttonTextOption.setColor(DEFAULT_BUTTON_TEXT_COLOR);
+        buttonTextOption.setSize(DEFAULT_TEXT_SIZE);
     }
 
     private void transferTextOption(TextOption mainOption, TextOption option) {
         if (option != null) {
             try {
                 mainOption.setColor(option.getColor());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
                 mainOption.setSize(option.getSize());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -366,6 +370,7 @@ public class MultiLayout extends RelativeLayout {
             if (imageLoading != null && imageLoading.getAnimation() != null) {
                 imageLoading.getAnimation().cancel();
             }
+            this.listener = null;
             this.setVisibility(GONE);
             super.removeAllViews();
         }
