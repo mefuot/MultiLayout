@@ -19,7 +19,7 @@ android layout for multi purpose.
 
 #### Gradle
 ```groovy
-compile 'com.pong.library:multi-layout:0.9.0@aar'
+compile 'com.pong.library:multi-layout:0.9.0'
 ```
 
 ## Basic Usage
