@@ -89,13 +89,21 @@ public class MultiLayout extends RelativeLayout {
                 attrs, R.styleable.MultiLayout, 0, 0);
 
         if (attrs != null) {
-            emptyMessage = a.getText(R.styleable.MultiLayout_empty_msg).toString();
-            loadingMessage = a.getText(R.styleable.MultiLayout_loading_msg).toString();
-            failMessage = a.getText(R.styleable.MultiLayout_error_msg).toString();
-            loadingDrawable = a.getDrawable(R.styleable.MultiLayout_loading_indicator);
+            emptyMessage = getString(a.getText(R.styleable.MultiLayout_empty_msg));
+            loadingMessage = getString(a.getText(R.styleable.MultiLayout_loading_msg));
+            failMessage = getString(a.getText(R.styleable.MultiLayout_error_msg));
+
+            Drawable loading = a.getDrawable(R.styleable.MultiLayout_loading_indicator);
+            if (loading != null) {
+                loadingDrawable = loading;
+            }
 
             a.recycle();
         }
+    }
+
+    private String getString(CharSequence charSequence) {
+        return (charSequence != null) ? charSequence.toString() : null;
     }
 
     /**
