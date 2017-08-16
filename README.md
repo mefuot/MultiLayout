@@ -44,15 +44,12 @@ in Xml
         app:error_msg:.......
         app:loading_indicator:......./>
 ```
-
-Use app:empty_msg to set empty message. Default is "No item found".
-
-Use app:loading_msg to set loading message. Default is "Loading...".
-
-Use app:error_msg to set failed message. Default is "Can't load data. Please try again.".
-
-Use app:loading_indicator to set loading indicator drawable.
-
+| attr | description |
+|:---|:---|
+| empty_msg | set empty message. Default is "No item found" |
+| loading_msg | set loading message. Default is "Loading..." |
+| error_msg | set failed message. Default is "Can't load data. Please try again." |
+| loading_indicator |  set loading indicator drawable |
 
 in Java
 ```java
@@ -115,7 +112,8 @@ Change retry and loading drawable
   
   public void setLoadingDrawable(Drawable drawable)
   
-  public void setLoadingOrientation(int orientation) // sample multiLayout.setLoadingOrientation(LinearLayout.VERTICAL);
+  public void setLoadingOrientation(int orientation) 
+  // sample multiLayout.setLoadingOrientation(LinearLayout.VERTICAL);
 ```
 
 Change message size and color with TextOption
