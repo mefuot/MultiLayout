@@ -12,7 +12,7 @@ android layout for multi purpose.
 <dependency>
   <groupId>com.pong.library</groupId>
   <artifactId>multi-layout</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -29,7 +29,7 @@ allprojects {
 
 dependency
 ```groovy
-compile 'com.pong.library:multi-layout:1.0.0'
+compile 'com.pong.library:multi-layout:1.0.1'
 ```
 
 ## Basic Usage
@@ -49,7 +49,7 @@ in Xml
 | empty_msg | set empty message. Default is "No item found" |
 | loading_msg | set loading message. Default is "Loading..." |
 | error_msg | set failed message. Default is "Can't load data. Please try again." |
-| loading_indicator |  set loading indicator drawable |
+| loading_indicator |  set loading indicator drawable (Optional) |
 
 in Java
 ```java
