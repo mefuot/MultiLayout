@@ -12,24 +12,37 @@ android layout for multi purpose.
 <dependency>
   <groupId>com.pong.library</groupId>
   <artifactId>multi-layout</artifactId>
-  <version>0.9.0</version>
+  <version>1.0.0</version>
   <type>pom</type>
 </dependency>
 ```
 
 #### Gradle
 ```groovy
-compile 'com.pong.library:multi-layout:0.9.0'
+compile 'com.pong.library:multi-layout:1.0.0'
 ```
 
 ## Basic Usage
 1. Add MultiLayout component to target xml.
 ```xml
- <com.excelbkk.pong.multilayout.MultiLayout
+ <com.pong.library.multilayout.MultiLayout
         android:id="@+id/multi_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:empty_msg:.......
+        app:loading_msg:.......
+        app:error_msg:.......
+        app:loading_indicator:......./>
 ```
+
+Use app:empty_msg to set empty message. Default is "No item found".
+
+Use app:loading_msg to set loading message. Default is "Loading...".
+
+Use app:error_msg to set failed message. Default is "Can't load data. Please try again.".
+
+Use app:loading_indicator to set loading indicator drawable.
+
 
 2. Implement at view
 ```java
@@ -91,6 +104,8 @@ Change retry and loading drawable
   public void setRetryButtonBackgroundColor(int color)
   
   public void setLoadingDrawable(Drawable drawable)
+  
+  public void setLoadingOrientation(int orientation) // sample multiLayout.setLoadingOrientation(LinearLayout.VERTICAL);
 ```
 
 Change message size and color with TextOption
