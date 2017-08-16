@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -26,11 +28,14 @@ public class MultiLayout extends RelativeLayout {
     private static final String EMPTY = "empty";
     private static final String LOADING = "loading";
     private static final String FAIL = "fail";
+    private static final String NONE = "none";
 
     private static final float DEFAULT_TEXT_SIZE = 16;
     private static final int DEFAULT_RETRY_BG_COLOUR = Color.GRAY;
     private static final int DEFAULT_TEXT_COLOR = Color.DKGRAY;
     private static final int DEFAULT_BUTTON_TEXT_COLOR = Color.WHITE;
+
+    private String currentView;
 
     private ViewGroup loadingView;
     private ViewGroup emptyView;
@@ -52,7 +57,9 @@ public class MultiLayout extends RelativeLayout {
     private Drawable retryButtonBackgroundDrawable;
     private int retryButtonBackgroundColor = DEFAULT_RETRY_BG_COLOUR;
 
-    private TextOption messageOption;
+    private TextOption emptyMessageOption;
+    private TextOption loadingMessageOption;
+    private TextOption failMessageOption;
     private TextOption buttonTextOption;
 
     public MultiLayout(Context context) {
@@ -79,7 +86,9 @@ public class MultiLayout extends RelativeLayout {
         this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         this.setVisibility(GONE);
-        messageOption = new TextOption(16, Color.DKGRAY);
+        emptyMessageOption = new TextOption(16, Color.DKGRAY);
+        loadingMessageOption = new TextOption(16, Color.DKGRAY);
+        failMessageOption = new TextOption(16, Color.DKGRAY);
         buttonTextOption = new TextOption(16, Color.WHITE);
         loadingOrientation = LinearLayout.HORIZONTAL;
     }
@@ -113,7 +122,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setEmptyMessage(@NonNull String msg) {
         setEmptyMessage(msg, null);
-        resetMessageTextOption();
+        resetMessageTextOption(emptyMessageOption);
     }
 
     /**
@@ -124,7 +133,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setEmptyMessage(@NonNull String msg, TextOption option) {
         emptyMessage = msg;
-        transferTextOption(messageOption, option);
+        transferTextOption(emptyMessageOption, option);
     }
 
     /**
@@ -134,7 +143,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setFailMessage(@NonNull String msg) {
         setFailMessage(msg, null);
-        resetMessageTextOption();
+        resetMessageTextOption(failMessageOption);
     }
 
     /**
@@ -145,7 +154,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setFailMessage(@NonNull String msg, TextOption option) {
         failMessage = msg;
-        transferTextOption(messageOption, option);
+        transferTextOption(failMessageOption, option);
     }
 
     /**
@@ -155,7 +164,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setLoadingMessage(@NonNull String msg) {
         setLoadingMessage(msg, null);
-        resetMessageTextOption();
+        resetMessageTextOption(loadingMessageOption);
     }
 
     /**
@@ -166,7 +175,7 @@ public class MultiLayout extends RelativeLayout {
      */
     public void setLoadingMessage(@NonNull String msg, TextOption option) {
         loadingMessage = msg;
-        transferTextOption(messageOption, option);
+        transferTextOption(loadingMessageOption, option);
     }
 
     /**
@@ -251,7 +260,8 @@ public class MultiLayout extends RelativeLayout {
     /**
      * Show text fail on this layout with retry button. Not working on custom fail view.
      *
-     * @param listener listener will active when press retry button
+     * @param listener listener will active when press retry button.
+     *                 (must set listener again when rotate screen or any restore state)
      */
     public void showFail(@NonNull OnRetryListener listener) {
         this.listener = listener;
@@ -262,6 +272,8 @@ public class MultiLayout extends RelativeLayout {
     private void switchView(String type) {
         removeAllViews();
         this.setVisibility(VISIBLE);
+        currentView = type;
+
         switch (type) {
             case EMPTY:
                 this.addView(createEmptyView());
@@ -273,7 +285,6 @@ public class MultiLayout extends RelativeLayout {
                 this.addView(createFailView());
                 break;
             default:
-                this.addView(createEmptyView());
                 break;
         }
     }
@@ -292,7 +303,7 @@ public class MultiLayout extends RelativeLayout {
 
         TextView textView = (TextView) emptyView.findViewById(R.id.text_empty_list);
         setTextToTextView(textView, emptyMessage);
-        setTextOption(textView, messageOption);
+        setTextOption(textView, emptyMessageOption);
 
         return emptyView;
     }
@@ -304,7 +315,7 @@ public class MultiLayout extends RelativeLayout {
 
         TextView textView = (TextView) failView.findViewById(R.id.text_fail);
         setTextToTextView(textView, failMessage);
-        setTextOption(textView, messageOption);
+        setTextOption(textView, failMessageOption);
 
         TextView textRetry = (TextView) failView.findViewById(R.id.text_try_again);
         setTextToTextView(textRetry, retryMessage);
@@ -331,7 +342,7 @@ public class MultiLayout extends RelativeLayout {
 
         TextView textView = (TextView) loadingView.findViewById(R.id.text_loading);
         setTextToTextView(textView, loadingMessage);
-        setTextOption(textView, messageOption);
+        setTextOption(textView, loadingMessageOption);
 
         if (imageLoading == null) {
             imageLoading = (ImageView) loadingView.findViewById(R.id.image_loading);
@@ -376,9 +387,9 @@ public class MultiLayout extends RelativeLayout {
         }
     }
 
-    private void resetMessageTextOption() {
-        messageOption.setColor(DEFAULT_TEXT_COLOR);
-        messageOption.setSize(DEFAULT_TEXT_SIZE);
+    private void resetMessageTextOption(TextOption textOption) {
+        textOption.setColor(DEFAULT_TEXT_COLOR);
+        textOption.setSize(DEFAULT_TEXT_SIZE);
     }
 
     private void resetButtonTextOption() {
@@ -411,13 +422,128 @@ public class MultiLayout extends RelativeLayout {
 
     @Override
     public void removeAllViews() {
+        currentView = NONE;
         if (getChildCount() > 0) {
             if (imageLoading != null && imageLoading.getAnimation() != null) {
                 imageLoading.getAnimation().cancel();
             }
-            this.listener = null;
             this.setVisibility(GONE);
             super.removeAllViews();
         }
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+        ss.currentView = this.currentView;
+        ss.emptyMessage = this.emptyMessage;
+        ss.loadingMessage = this.loadingMessage;
+        ss.failMessage = this.failMessage;
+        ss.retryMessage = this.retryMessage;
+        ss.canRetry = this.canRetry;
+        ss.loadingOrientation = this.loadingOrientation;
+        ss.retryButtonBackgroundColor = this.retryButtonBackgroundColor;
+        ss.emptyMessageOption = this.emptyMessageOption;
+        ss.loadingMessageOption = this.loadingMessageOption;
+        ss.failMessageOption = this.failMessageOption;
+        ss.buttonTextOption = this.buttonTextOption;
+        return ss;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+        this.emptyMessage = ss.emptyMessage;
+        this.loadingMessage = ss.loadingMessage;
+        this.failMessage = ss.failMessage;
+        this.retryMessage = ss.retryMessage;
+        this.canRetry = ss.canRetry;
+        this.loadingOrientation = ss.loadingOrientation;
+        this.retryButtonBackgroundColor = ss.retryButtonBackgroundColor;
+        this.emptyMessageOption = ss.emptyMessageOption;
+        this.loadingMessageOption = ss.loadingMessageOption;
+        this.failMessageOption = ss.failMessageOption;
+        this.buttonTextOption = ss.buttonTextOption;
+        switchView(ss.currentView);
+    }
+
+    private static class SavedState extends BaseSavedState {
+        String currentView;
+
+        String emptyMessage;
+        String loadingMessage;
+        String failMessage;
+        String retryMessage;
+
+        boolean canRetry;
+        int loadingOrientation;
+        int retryButtonBackgroundColor;
+
+        TextOption emptyMessageOption;
+        TextOption loadingMessageOption;
+        TextOption failMessageOption;
+        TextOption buttonTextOption;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+
+            this.currentView = in.readString();
+
+            this.emptyMessage = in.readString();
+            this.loadingMessage = in.readString();
+            this.failMessage = in.readString();
+            this.retryMessage = in.readString();
+
+            this.canRetry = in.readByte() != 0;
+
+            this.loadingOrientation = in.readInt();
+            this.retryButtonBackgroundColor = in.readInt();
+
+            this.emptyMessageOption = in.readParcelable(TextOption.class.getClassLoader());
+            this.loadingMessageOption = in.readParcelable(TextOption.class.getClassLoader());
+            this.failMessageOption = in.readParcelable(TextOption.class.getClassLoader());
+            this.buttonTextOption = in.readParcelable(TextOption.class.getClassLoader());
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeString(this.currentView);
+
+            out.writeString(this.emptyMessage);
+            out.writeString(this.loadingMessage);
+            out.writeString(this.failMessage);
+            out.writeString(this.retryMessage);
+
+            out.writeByte((byte) (canRetry ? 1 : 0));
+
+            out.writeInt(this.loadingOrientation);
+            out.writeInt(this.retryButtonBackgroundColor);
+
+            out.writeParcelable(this.emptyMessageOption, 0);
+            out.writeParcelable(this.loadingMessageOption, 0);
+            out.writeParcelable(this.failMessageOption, 0);
+            out.writeParcelable(this.buttonTextOption, 0);
+        }
+
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 }
