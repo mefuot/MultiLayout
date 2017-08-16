@@ -18,12 +18,22 @@ android layout for multi purpose.
 ```
 
 #### Gradle
+root build.gradle
+```groovy
+allprojects {
+    repositories {
+        jcenter();
+    }
+}
+```
+
+dependency
 ```groovy
 compile 'com.pong.library:multi-layout:1.0.0'
 ```
 
 ## Basic Usage
-1. Add MultiLayout component to target xml.
+in Xml
 ```xml
  <com.pong.library.multilayout.MultiLayout
         android:id="@+id/multi_layout"
@@ -44,7 +54,7 @@ Use app:error_msg to set failed message. Default is "Can't load data. Please try
 Use app:loading_indicator to set loading indicator drawable.
 
 
-2. Implement at view
+in Java
 ```java
 import com.excelbkk.pong.multilayout.MultiLayout;
 import com.excelbkk.pong.multilayout.OnRetryListener;
