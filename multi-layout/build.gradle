@@ -13,11 +13,11 @@ ext {
     siteUrl = 'https://github.com/mefuot/MultiLayout'
     gitUrl = 'https://github.com/mefuot/MultiLayout.git'
 
-    libraryVersion = '0.9.0'
+    libraryVersion = '1.0.0'
 
     developerId = 'mefuot'
     developerName = 'Pongpol Pramanpol'
-    developerEmail = 'pong.pramanpol@gmail.com'
+    developerEmail = 'pong230@gmail.com'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
