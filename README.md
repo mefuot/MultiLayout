@@ -49,7 +49,7 @@ in Xml
 | empty_msg | set empty message. Default is "No item found" |
 | loading_msg | set loading message. Default is "Loading..." |
 | error_msg | set failed message. Default is "Can't load data. Please try again." |
-| loading_indicator |  set loading indicator drawable |
+| loading_indicator |  set loading indicator drawable (Optional) |
 
 in Java
 ```java
