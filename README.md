@@ -12,7 +12,7 @@ android layout for multi purpose.
 <dependency>
   <groupId>com.pong.library</groupId>
   <artifactId>multi-layout</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -29,7 +29,7 @@ allprojects {
 
 dependency
 ```groovy
-compile 'com.pong.library:multi-layout:1.0.0'
+compile 'com.pong.library:multi-layout:1.0.1'
 ```
 
 ## Basic Usage
