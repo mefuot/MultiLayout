@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.excelbkk.pong.sample.MainActivity">
+    tools:context="com.pong.library.sample.MainActivity">
 
     <TextView
         style="?android:textAppearanceLarge"
@@ -13,7 +13,7 @@
         android:layout_centerInParent="true"
         android:text="Your Content!" />
 
-    <com.excelbkk.pong.multilayout.MultiLayout
+    <com.pong.library.multilayout.MultiLayout
         android:id="@+id/multi_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

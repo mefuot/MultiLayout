@@ -1,4 +1,4 @@
-package com.excelbkk.pong.multilayout;
+package com.pong.library.multilayout;
 
 /**
  * Created by pong.p on 4/7/2016.

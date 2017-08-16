@@ -1,4 +1,4 @@
-package com.excelbkk.pong.multilayout;
+package com.pong.library.multilayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;

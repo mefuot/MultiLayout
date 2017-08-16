@@ -1,4 +1,4 @@
-package com.excelbkk.pong.sample;
+package com.pong.library.sample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.excelbkk.pong.multilayout.MultiLayout;
-import com.excelbkk.pong.multilayout.OnRetryListener;
+import com.pong.library.multilayout.MultiLayout;
+import com.pong.library.multilayout.OnRetryListener;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
