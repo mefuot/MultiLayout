@@ -1,9 +1,12 @@
 package com.excelbkk.pong.multilayout;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -25,7 +28,7 @@ public class MultiLayout extends RelativeLayout {
     private static final String FAIL = "fail";
 
     private static final float DEFAULT_TEXT_SIZE = 16;
-    private static final int DEFAULT_RETRY_BG_COLOUR = Color.BLUE;
+    private static final int DEFAULT_RETRY_BG_COLOUR = Color.GRAY;
     private static final int DEFAULT_TEXT_COLOR = Color.DKGRAY;
     private static final int DEFAULT_BUTTON_TEXT_COLOR = Color.WHITE;
 
@@ -42,35 +45,57 @@ public class MultiLayout extends RelativeLayout {
 
     private boolean canRetry;
     private Drawable loadingDrawable;
+    @LinearLayoutCompat.OrientationMode
+    private int loadingOrientation;
 
     private OnRetryListener listener;
     private Drawable retryButtonBackgroundDrawable;
-    private int retryButtonBackgroundColour = DEFAULT_RETRY_BG_COLOUR;
+    private int retryButtonBackgroundColor = DEFAULT_RETRY_BG_COLOUR;
 
     private TextOption messageOption;
     private TextOption buttonTextOption;
 
     public MultiLayout(Context context) {
         super(context);
-        init();
+        init(null);
     }
 
     public MultiLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
     public MultiLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(attrs);
     }
 
-    private void init() {
+    private void init(@Nullable AttributeSet attrs) {
+        setupDefaultView();
+        setupAttribute(attrs);
+    }
+
+    private void setupDefaultView() {
         this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         this.setVisibility(GONE);
         messageOption = new TextOption(16, Color.DKGRAY);
         buttonTextOption = new TextOption(16, Color.WHITE);
+        loadingOrientation = LinearLayout.HORIZONTAL;
+    }
+
+    private void setupAttribute(@Nullable AttributeSet attrs) {
+        TypedArray a = getContext().getTheme().obtainStyledAttributes(
+                attrs, R.styleable.MultiLayout, 0, 0);
+
+        if (attrs != null) {
+            emptyMessage = a.getText(R.styleable.MultiLayout_empty_msg).toString();
+            loadingMessage = a.getText(R.styleable.MultiLayout_loading_msg).toString();
+            failMessage = a.getText(R.styleable.MultiLayout_error_msg).toString();
+            loadingDrawable = a.getDrawable(R.styleable.MultiLayout_loading_indicator);
+
+            a.recycle();
+        }
     }
 
     /**
@@ -137,6 +162,15 @@ public class MultiLayout extends RelativeLayout {
     }
 
     /**
+     * Set loading layout of indicator and text (Default is horizontal)
+     *
+     * @param orientation layout orientation
+     */
+    public void setLoadingOrientation(@LinearLayoutCompat.OrientationMode int orientation) {
+        loadingOrientation = orientation;
+    }
+
+    /**
      * Set retry button title
      *
      * @param title text message
@@ -172,7 +206,7 @@ public class MultiLayout extends RelativeLayout {
      * @param color background color
      */
     public void setRetryButtonBackgroundColor(int color) {
-        this.retryButtonBackgroundColour = color;
+        this.retryButtonBackgroundColor = color;
     }
 
     /**
@@ -272,7 +306,7 @@ public class MultiLayout extends RelativeLayout {
         if (retryButtonBackgroundDrawable != null) {
             layout.setBackground(retryButtonBackgroundDrawable);
         } else {
-            layout.setBackgroundColor(retryButtonBackgroundColour);
+            layout.setBackgroundColor(retryButtonBackgroundColor);
         }
         setupFailButton(layout);
 
@@ -283,6 +317,9 @@ public class MultiLayout extends RelativeLayout {
         if (loadingView == null) {
             loadingView = initBaseView(R.layout.view_loading);
         }
+
+        LinearLayout layout = (LinearLayout) loadingView.findViewById(R.id.layout_loading);
+        layout.setOrientation(loadingOrientation);
 
         TextView textView = (TextView) loadingView.findViewById(R.id.text_loading);
         setTextToTextView(textView, loadingMessage);

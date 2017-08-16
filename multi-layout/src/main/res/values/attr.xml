@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MultiLayout">
+        <attr name="empty_msg" format="string|reference" />
+        <attr name="loading_msg" format="string|reference" />
+        <attr name="error_msg" format="string|reference" />
+        <attr name="loading_indicator" format="reference" />
+    </declare-styleable>
+</resources>
