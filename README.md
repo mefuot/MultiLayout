@@ -29,7 +29,7 @@ allprojects {
 
 dependency
 ```groovy
-compile 'com.pong.library:multi-layout:1.0.1'
+compile 'com.pong.library:multi-layout:1.0.2'
 ```
 
 ## Basic Usage
