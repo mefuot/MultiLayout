@@ -5,6 +5,8 @@ android layout for multi purpose.
 - show load fail layout
 - show loading layout
 
+![preview](capture/preview.gif)
+
 ## Install
 
 #### Maven
