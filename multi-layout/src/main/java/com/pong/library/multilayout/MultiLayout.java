@@ -285,6 +285,7 @@ public class MultiLayout extends RelativeLayout {
                 this.addView(createFailView());
                 break;
             default:
+                this.setVisibility(GONE);
                 break;
         }
     }
@@ -422,12 +423,12 @@ public class MultiLayout extends RelativeLayout {
 
     @Override
     public void removeAllViews() {
-        currentView = NONE;
         if (getChildCount() > 0) {
             if (imageLoading != null && imageLoading.getAnimation() != null) {
                 imageLoading.getAnimation().cancel();
             }
             this.setVisibility(GONE);
+            currentView = NONE;
             super.removeAllViews();
         }
     }
@@ -470,7 +471,6 @@ public class MultiLayout extends RelativeLayout {
         this.loadingMessageOption = ss.loadingMessageOption;
         this.failMessageOption = ss.failMessageOption;
         this.buttonTextOption = ss.buttonTextOption;
-        switchView(ss.currentView);
     }
 
     private static class SavedState extends BaseSavedState {
